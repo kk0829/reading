@@ -7,7 +7,7 @@ app.use(bodyParser.json());
 
 app.get('/', function(req, res) {
 	console.log(req.webtaskContext);
-	res.end('hello world');
+	res.end('hello world 123');
 });
 
 // like
