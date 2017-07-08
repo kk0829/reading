@@ -8,12 +8,16 @@ app.use(bodyParser.json());
 
 var OWNER = 'kk0829';
 var REPO = 'reading';
-var GITHUB_TOKEN = '5b962f7fff384c800d1cd257c7e366c0761cb636';
+var GITHUB_TOKEN = 'e8f7b3b5b9c425118be3df456aed724346bb07e2';
 var HEADERS = {
     'authorization': `token ${GITHUB_TOKEN}`,
     'user-agent': 'Awesome-Octocat-App',
     'content-type': 'application/json'
 };
+
+function isString(obj) {
+    return Object.prototype.toString.call(obj) === '[object String]';
+}
 
 app.get('/', function(req, res) {
 
@@ -41,9 +45,10 @@ app.post('/highlight', function(req, res) {
 
     request(options, function(error, response, body) {
         if (error) {
-            throw new Error(error);
+            console.log(error);
         } else {
-            var items = JSON.parse(body).items;
+            console.log(body);
+            var items = isString(body) ? JSON.parse(body).items : body.items || [];
             items.forEach((function(item) {
                 var options = {
                     method: 'POST',
@@ -57,7 +62,7 @@ app.post('/highlight', function(req, res) {
 
                 request(options, function(error, response, body) {
                     if (error) {
-                        throw new Error(error);
+                        console.log(error);
                     }
                 });
             }));
@@ -81,7 +86,7 @@ app.post('/comment', function(req, res) {
 
     request(options, function(error, response, body) {
         if (error) {
-            throw new Error(error);
+            console.log(error);
         } else {
             var items = JSON.parse(body).items;
             items.forEach((function(item) {
@@ -96,7 +101,7 @@ app.post('/comment', function(req, res) {
                 };
 
                 request(options, function(error, response, body) {
-                    if (error) throw new Error(error);
+                    if (error) console.log(error);;
                 });
             }));
             res.end(body);
@@ -119,7 +124,7 @@ app.post('/archived', function(req, res) {
 
     request(options, function(error, response, body) {
         if (error) {
-            throw new Error(error);
+            console.log(error);
         } else {
             var items = JSON.parse(body).items;
             items.forEach((function(item) {
@@ -132,7 +137,7 @@ app.post('/archived', function(req, res) {
                 };
 
                 request(options, function(error, response, body) {
-                    if (error) throw new Error(error);
+                    if (error) console.log(error);;
                 });
             }));
             res.end(body);
